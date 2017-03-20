@@ -1,6 +1,7 @@
 package com.afroplatypus.olinia;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ProgressBar;
@@ -12,6 +13,8 @@ public class LoadActivity extends Activity {
     private TextView phrase;
     private ProgressBar progressBar;
 
+    private final int seconds = 3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,11 +24,23 @@ public class LoadActivity extends Activity {
         phrase = (TextView) findViewById(R.id.phrase);
 
 
-        progressBar.setProgress(67);
-
-
         String[] phrases = this.getResources().getStringArray(R.array.phrases);
         String randomStr = phrases[new Random().nextInt(phrases.length)];
         phrase.setText(randomStr);
+
+        // progressBar Animation
+        new Thread(new Runnable() {
+            public void run() {
+                for (int i = 0; i < 100; ++i) {
+                    progressBar.setProgress(progressBar.getProgress() + 1);
+                    try {
+                        Thread.sleep(seconds*10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
     }
 }
