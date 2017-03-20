@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#37474F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="phoenixRed">#DE5336</color>
+    <color name="phoenixYellow">#DD9B3A</color>
+    <color name="background">#B3E5FC</color>
 </resources>
