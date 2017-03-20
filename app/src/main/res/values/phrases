@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="phrases">
+        <item>Si un problema tiene solución, no hace falta preocuparse. Si no tiene solución, preocuparse no sirve de nada.</item>
+        <item>Si la vida no te sonríe…¡Házle cosquillas!.</item>
+        <item>Donde una puerta se cierra, otra se abre.</item>
+        <item>Si exagerásemos nuestras alegrías, como hacemos con nuestras penas, nuestros problemas perderían importancia.</item>
+        <item>Esperar lo inesperado. Aceptar lo inaceptable.</item>
+        <item>Las tormentas hacen que los árboles tengan raíces más profundas.</item>
+        <item>La felicidad es a veces una bendición, pero por lo general es una conquista.</item>
+        <item>Si lloras porque no puedes ver el sol, las lágrimas no te dejarán ver las estrellas.</item>
+        <item>Si un día te sientes inútil y deprimido… ¡¡¡recuerda que fuiste el espermatozoide más veloz de todos…!!!</item>
+        <item>Existen derrotas, pero nadie está a salvo de ellas. Por eso es mejor perder algunos combates en la lucha por nuestros sueños que ser derrotados sin siquiera saber por qué se está luchando.</item>
+        <item>Sólo hay un medio para matar los monstruos: aceptarlos.</item>
+        <item>En los momentos de crisis, sólo la imaginación es más importante que el conocimiento.</item>
+        <item>Un viaje de diez mil kilómetros empieza por un solo paso.</item>
+        <item>La gente positiva cambia el mundo, mientras que la negativa lo mantiene como está.</item>
+        <item>Me gusta la vida. Tengo algunos problemas con mi vida, pero la vida es la mejor cosa que hay.</item>
+        <item>Cada proceso enseña algo que necesitamos aprender.</item>
+        <item>Dios creó el desierto para que el hombre pudiera sonreir al ver las palmeras.</item>
+        <item>No tratemos de mejorar lo malo, olvidémoslo y hagamos mejor lo que ya hacemos bien.</item>
+        <item>Existe al menos un rincón del universo que con toda seguridad puedes mejorar, y eres tú mismo.</item>
+        <item>No existe nada más contagioso que el entusiasmo.</item>
+    </string-array>
+</resources>
