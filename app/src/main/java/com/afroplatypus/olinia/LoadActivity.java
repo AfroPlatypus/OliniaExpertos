@@ -9,10 +9,10 @@ import android.widget.TextView;
 import java.util.Random;
 
 public class LoadActivity extends Activity {
+    private final int seconds = 3;
     private TextView phrase;
     private ProgressBar progressBar;
-
-    private final int seconds = 3;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,7 @@ public class LoadActivity extends Activity {
         phrase.setText(randomStr);
 
         // progressBar Animation
+        intent = new Intent(this, ChatActivity.class);
         new Thread(new Runnable() {
             public void run() {
                 try {
@@ -44,8 +45,13 @@ public class LoadActivity extends Activity {
         }).start();
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     public void onContinue() {
-        Intent intent = new Intent(this, ChatActivity.class);
         startActivity(intent);
+        LoadActivity.this.finish();
     }
 }
