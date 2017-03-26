@@ -1,8 +1,7 @@
 package com.afroplatypus.olinia;
 
 import android.app.Activity;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,16 +30,22 @@ public class LoadActivity extends Activity {
         // progressBar Animation
         new Thread(new Runnable() {
             public void run() {
-                for (int i = 0; i < 100; ++i) {
-                    progressBar.setProgress(progressBar.getProgress() + 1);
-                    try {
+                try {
+                    for (int i = 0; i < 100; ++i) {
+                        progressBar.setProgress(progressBar.getProgress() + 1);
                         Thread.sleep(seconds*10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    onContinue();
                 }
             }
         }).start();
+    }
 
+    public void onContinue() {
+        Intent intent = new Intent(this, ChatActivity.class);
+        startActivity(intent);
     }
 }
