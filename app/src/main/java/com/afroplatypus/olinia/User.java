@@ -1,9 +1,5 @@
 package com.afroplatypus.olinia;
 
-/**
- * Created by omarsaucedo on 25/03/17.
- */
-
 public class User {
 
     private int id;

@@ -1,16 +1,16 @@
 package com.afroplatypus.olinia;
 
-/**
- * Created by moy on 3/20/17.
- */
+import java.io.Serializable;
 
-public class Message {
+
+class Message implements Serializable {
     private String id;
     private String body;
     private String receiver;
     private String sender;
 
     public Message() {
+        id = body = receiver = sender = "";
     }
 
     public Message(String body, String receiver, String sender) {
@@ -27,7 +27,7 @@ public class Message {
         this.id = id;
     }
 
-    public String getBody() {
+    String getBody() {
         return body;
     }
 
@@ -43,7 +43,7 @@ public class Message {
         this.receiver = receiver;
     }
 
-    public String getSender() {
+    String getSender() {
         return sender;
     }
 
