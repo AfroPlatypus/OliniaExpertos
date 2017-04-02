@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerVertical="true"
     android:layout_marginLeft="30dp"
     android:layout_marginRight="30dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="50dp"
-        app:srcCompat="@mipmap/olinia" />
+        android:src="@mipmap/olinia" />
 
     <EditText
         android:id="@+id/user_name"
@@ -23,7 +23,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginTop="50dp"
-        android:hint="Correo electrónico"
+        android:hint="@string/string_email"
         android:textStyle="italic" />
 
     <EditText
@@ -34,16 +34,43 @@
         android:layout_marginRight="40dp"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="contraseña"
+        android:hint="@string/string_pass"
         android:inputType="textPassword"
         android:textStyle="italic" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:textAlignment="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/string_register"
+            android:textAlignment="center"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/txtAnon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/string_login_anon"
+            android:textAlignment="center"
+            android:textStyle="italic" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnLogIn"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
         android:backgroundTint="@color/colorPrimary"
-        android:text="Iniciar sesión" />
+        android:text="@string/string_login" />
 
 </LinearLayout>

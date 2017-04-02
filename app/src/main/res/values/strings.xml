@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Olinia</string>
+    <string name="string_email">Correo electrónico</string>
+    <string name="string_pass">Contraseña</string>
+    <string name="string_register">Registrarme</string>
+    <string name="string_login_anon">Entrar anónimo</string>
+    <string name="string_login">Iniciar sesión</string>
 </resources>
