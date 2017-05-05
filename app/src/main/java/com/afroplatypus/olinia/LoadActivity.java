@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.Random;
 
 public class LoadActivity extends Activity {
-    private final int seconds = 3;
+    private final int seconds = 1;
     private TextView phrase;
     private ProgressBar progressBar;
     private Intent chatIntent;
