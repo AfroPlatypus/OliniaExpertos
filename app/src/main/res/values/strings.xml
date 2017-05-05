@@ -5,4 +5,5 @@
     <string name="string_register">Registrarme</string>
     <string name="string_login_anon">Entrar anónimo</string>
     <string name="string_login">Iniciar sesión</string>
+    <string name="title_activity_chat_selection">ChatSelectionActivity</string>
 </resources>
