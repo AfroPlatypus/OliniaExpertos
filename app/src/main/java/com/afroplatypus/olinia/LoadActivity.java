@@ -12,7 +12,7 @@ public class LoadActivity extends Activity {
     private final int seconds = 3;
     private TextView phrase;
     private ProgressBar progressBar;
-    private Intent intent;
+    private Intent chatIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +27,15 @@ public class LoadActivity extends Activity {
         String randomStr = phrases[new Random().nextInt(phrases.length)];
         phrase.setText(randomStr);
 
-        // progressBar Animation
-        intent = new Intent(this, ChatActivity.class);
+
+        chatIntent = new Intent(this, ChatActivity.class);
+
         new Thread(new Runnable() {
             public void run() {
                 try {
                     for (int i = 0; i < 100; ++i) {
                         progressBar.setProgress(progressBar.getProgress() + 1);
-                        Thread.sleep(seconds*10);
+                        Thread.sleep(seconds * 10);
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -51,7 +52,7 @@ public class LoadActivity extends Activity {
     }
 
     public void onContinue() {
-        startActivity(intent);
+        startActivity(chatIntent);
         LoadActivity.this.finish();
     }
 }
