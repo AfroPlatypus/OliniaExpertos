@@ -12,7 +12,7 @@ public class LoadActivity extends Activity {
     private final int seconds = 1;
     private TextView phrase;
     private ProgressBar progressBar;
-    private Intent chatIntent;
+    private Intent chatSelectionIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class LoadActivity extends Activity {
         phrase.setText(randomStr);
 
 
-        chatIntent = new Intent(this, ChatActivity.class);
+        chatSelectionIntent = new Intent(this, ChatSelectionActivity.class);
 
         new Thread(new Runnable() {
             public void run() {
@@ -52,7 +52,7 @@ public class LoadActivity extends Activity {
     }
 
     public void onContinue() {
-        startActivity(chatIntent);
+        startActivity(chatSelectionIntent);
         LoadActivity.this.finish();
     }
 }
