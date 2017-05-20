@@ -10,14 +10,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class ChatActivity extends AppCompatActivity {
 
+    public static final String CONVERSATION_CHILD = "conversations";
     public static final String MESSAGES_CHILD = "messages";
-
+    //TODO Change to user id
+    String user_id;
+    String conversation_key;
     private DatabaseReference mFirebaseDatabaseReference;
+    private FirebaseAuth mAuth;
     private FirebaseListAdapter<Message> mFirebaseAdapter;
     private ListView mMessageRecyclerView;
     private Button sendButton;
@@ -28,20 +33,23 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        mAuth = FirebaseAuth.getInstance();
+        user_id = mAuth.getCurrentUser().getUid();
+
         mMessageRecyclerView = (ListView) findViewById(R.id.list);
         sendButton = (Button) findViewById(R.id.send);
         txt = (TextView) findViewById(R.id.txt);
 
+        conversation_key = getIntent().getExtras().getString("conversation_key");
+
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO Change Receiver and Sender
                 Message message = new Message(
                         txt.getText().toString(),
-                        "Receiver",
-                        "Sender"
+                        user_id
                 );
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD).push().setValue(message);
+                mFirebaseDatabaseReference.child(CONVERSATION_CHILD).child(conversation_key).child(MESSAGES_CHILD).push().setValue(message);
                 txt.setText("");
             }
         });
@@ -71,16 +79,16 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void getMessages() {
-        mFirebaseAdapter = new FirebaseListAdapter<Message>(this, Message.class, R.layout.message, mFirebaseDatabaseReference.child(MESSAGES_CHILD)) {
+        mFirebaseAdapter = new FirebaseListAdapter<Message>(this, Message.class, R.layout.message, mFirebaseDatabaseReference.child(CONVERSATION_CHILD).child(conversation_key).child(MESSAGES_CHILD)) {
             @Override
             protected void populateView(View v, Message message, int position) {
                 ((TextView) v.findViewById(R.id.msg)).setText(message.getBody());
-                if (message.getSender().equals("Moises")) {
-                    v.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-                    v.findViewById(R.id.msg).setBackgroundResource(R.drawable.message_received_style);
-                } else {
+                if (message.getSender().equals(user_id)) {
                     v.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
                     v.findViewById(R.id.msg).setBackgroundResource(R.drawable.message_sent_style);
+                } else {
+                    v.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+                    v.findViewById(R.id.msg).setBackgroundResource(R.drawable.message_received_style);
                 }
             }
         };
