@@ -4,33 +4,35 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class ChatSelectionActivity extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private Intent intentLogIn;
+
     public static final String CONVERSATION_CHILD = "conversations";
 
-    //TODO Change to user id
-    String user_id = "Moises";
+    String user_id;
     Intent chatIntent;
     private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseListAdapter<Conversation> mFirebaseAdapter;
     private ListView mChatRecyclerView;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private Intent intentLogIn;
+
+    private boolean click = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class ChatSelectionActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mAuth = FirebaseAuth.getInstance();
+        user_id = mAuth.getCurrentUser().getUid().trim();
         intentLogIn = new Intent(this, LogInActivity.class);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -51,25 +54,29 @@ public class ChatSelectionActivity extends AppCompatActivity {
                 }
             }
         };
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
         mChatRecyclerView = (ListView) findViewById(R.id.chats);
         chatIntent = new Intent(this, ChatActivity.class);
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         getMessages();
         mChatRecyclerView.setAdapter(mFirebaseAdapter);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //mAuth.signOut();
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    Interpolator interpolador = AnimationUtils.loadInterpolator(getBaseContext(),
+                            android.R.interpolator.fast_out_slow_in);
+                    view.animate()
+                            .rotation(click ? 45f : 0)
+                            .setInterpolator(interpolador)
+                            .start();
+                }
+            }
+        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Log.d("USER ID", user_id);
     }
 
 
@@ -80,8 +87,11 @@ public class ChatSelectionActivity extends AppCompatActivity {
                 conversation.setKey(getRef(position).getKey());
                 if (conversation.getUser1().equals(user_id)) {
                     ((TextView) v.findViewById(R.id.user)).setText(conversation.getUser2());
-                } else {
+                } else if (conversation.getUser2().equals(user_id)) {
                     ((TextView) v.findViewById(R.id.user)).setText(conversation.getUser1());
+                } else {
+                    // TODO Security Download only user chats
+                    return;
                 }
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override

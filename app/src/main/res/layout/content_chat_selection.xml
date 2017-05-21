@@ -20,7 +20,6 @@
         android:headerDividersEnabled="false"
         android:transcriptMode="alwaysScroll">
 
-
     </ListView>
 
 </android.support.constraint.ConstraintLayout>

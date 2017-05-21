@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -18,9 +19,10 @@ public class ChatActivity extends AppCompatActivity {
     public static final String CONVERSATION_CHILD = "conversations";
     public static final String MESSAGES_CHILD = "messages";
     //TODO Change to user id
-    String user_id = "Sender";
+    String user_id;
     String conversation_key;
     private DatabaseReference mFirebaseDatabaseReference;
+    private FirebaseAuth mAuth;
     private FirebaseListAdapter<Message> mFirebaseAdapter;
     private ListView mMessageRecyclerView;
     private Button sendButton;
@@ -30,6 +32,9 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        mAuth = FirebaseAuth.getInstance();
+        user_id = mAuth.getCurrentUser().getUid();
 
         mMessageRecyclerView = (ListView) findViewById(R.id.list);
         sendButton = (Button) findViewById(R.id.send);
