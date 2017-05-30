@@ -12,22 +12,22 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 public class ChatSelectionActivity extends AppCompatActivity {
 
+    public static final String CONVERSATION_CHILD = "conversations";
+    String user_id;
+    Intent chatIntent;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private Intent intentLogIn;
-
-    public static final String CONVERSATION_CHILD = "conversations";
-
-    String user_id;
-    Intent chatIntent;
     private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseListAdapter<Conversation> mFirebaseAdapter;
     private ListView mChatRecyclerView;
@@ -81,18 +81,13 @@ public class ChatSelectionActivity extends AppCompatActivity {
 
 
     private void getMessages() {
-        mFirebaseAdapter = new FirebaseListAdapter<Conversation>(this, Conversation.class, R.layout.chat, mFirebaseDatabaseReference.child(CONVERSATION_CHILD)) {
+        DatabaseReference conversations = mFirebaseDatabaseReference.child(CONVERSATION_CHILD);
+        Query conversations_query = conversations.orderByChild("user").equalTo(user_id);
+        mFirebaseAdapter = new FirebaseListAdapter<Conversation>(this, Conversation.class, R.layout.chat, conversations_query) {
             @Override
             protected void populateView(View v, final Conversation conversation, int position) {
                 conversation.setKey(getRef(position).getKey());
-                if (conversation.getUser1().equals(user_id)) {
-                    ((TextView) v.findViewById(R.id.user)).setText(conversation.getUser2());
-                } else if (conversation.getUser2().equals(user_id)) {
-                    ((TextView) v.findViewById(R.id.user)).setText(conversation.getUser1());
-                } else {
-                    // TODO Security Download only user chats
-                    return;
-                }
+                ((TextView) v.findViewById(R.id.user)).setText(conversation.getExpert());
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
