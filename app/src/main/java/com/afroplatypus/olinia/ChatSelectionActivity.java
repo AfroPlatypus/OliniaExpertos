@@ -16,9 +16,12 @@ import android.widget.TextView;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class ChatSelectionActivity extends AppCompatActivity {
 
@@ -48,15 +51,19 @@ public class ChatSelectionActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = mAuth.getCurrentUser();
-                if(user == null){
+                if (user == null) {
                     startActivity(intentLogIn);
                     ChatSelectionActivity.this.finish();
                 }
             }
         };
+
+        presenceSystem();
+
         mChatRecyclerView = (ListView) findViewById(R.id.chats);
         chatIntent = new Intent(this, ChatActivity.class);
-        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        mFirebaseDatabaseReference = database.getReference();
         getMessages();
         mChatRecyclerView.setAdapter(mFirebaseAdapter);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -77,6 +84,25 @@ public class ChatSelectionActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Log.d("USER ID", user_id);
+    }
+
+    private void presenceSystem() {
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference connectedReference = database.getReference("users/" + user_id).child("connected");
+
+        final DatabaseReference connectedRef = database.getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                connectedReference.setValue(Boolean.TRUE);
+                connectedReference.onDisconnect().setValue(Boolean.FALSE);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                System.err.println("Listener was cancelled at .info/connected");
+            }
+        });
     }
 
 

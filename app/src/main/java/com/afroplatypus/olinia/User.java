@@ -6,19 +6,20 @@ package com.afroplatypus.olinia;
 
 public class User {
 
-    private int id;
+    private String id;
     private String name;
+    private boolean connected;
 
     public User(String name) {
         //TODO id = getIDFromFirebase();
         this.name = name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -28,5 +29,13 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
     }
 }
