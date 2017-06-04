@@ -27,7 +27,7 @@ public class ChatSelectionActivity extends AppCompatActivity {
     Intent chatIntent;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private Intent intentLogIn;
+    private Intent intentLogIn, intentExpSel;
     private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseListAdapter<Conversation> mFirebaseAdapter;
     private ListView mChatRecyclerView;
@@ -44,6 +44,7 @@ public class ChatSelectionActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         user_id = mAuth.getCurrentUser().getUid().trim();
         intentLogIn = new Intent(this, LogInActivity.class);
+        intentExpSel = new Intent(this, SelectExpertActivity.class);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -63,15 +64,7 @@ public class ChatSelectionActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //mAuth.signOut();
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    Interpolator interpolador = AnimationUtils.loadInterpolator(getBaseContext(),
-                            android.R.interpolator.fast_out_slow_in);
-                    view.animate()
-                            .rotation(click ? 45f : 0)
-                            .setInterpolator(interpolador)
-                            .start();
-                }
+                startActivity(intentExpSel);
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
