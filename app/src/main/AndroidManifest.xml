@@ -28,8 +28,9 @@
         <activity
             android:name=".ChatSelectionActivity"
             android:label="@string/title_activity_chat_selection"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".RegisterActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".SelectExpertActivity"></activity>
     </application>
 
 </manifest>

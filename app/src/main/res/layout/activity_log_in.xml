@@ -38,19 +38,6 @@
         android:inputType="textPassword"
         android:textStyle="italic" />
 
-    <EditText
-        android:id="@+id/confirm_pass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="@string/confirm_password"
-        android:inputType="textPassword"
-        android:textStyle="italic"
-        android:visibility="gone"/>
-
     <Button
         android:id="@+id/btnLogIn"
         style="@style/Widget.AppCompat.Button.Colored"

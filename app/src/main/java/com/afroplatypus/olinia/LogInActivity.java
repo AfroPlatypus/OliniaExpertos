@@ -41,6 +41,7 @@ public class LogInActivity extends AppCompatActivity {
         txtConfirm = (EditText) findViewById(R.id.confirm_pass);
         btnLogIn = (Button) findViewById(R.id.btnLogIn);
         intentLoad = new Intent(this, LoadActivity.class);
+        final Intent regIntent = new Intent(this, RegisterActivity.class);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -70,16 +71,7 @@ public class LogInActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(register.getText().toString().equals("Registrarme")) {
-                    btnLogIn.setText("Registrarme");
-                    txtConfirm.setVisibility(View.VISIBLE);
-                    register.setText("Iniciar sesión");
-                }
-                else {
-                    btnLogIn.setText("Iniciar sesión");
-                    txtConfirm.setVisibility(View.GONE);
-                    register.setText("Registrarme");
-                }
+                startActivity(regIntent);
             }
         });
         btnLogIn.setOnClickListener(new View.OnClickListener() {
@@ -90,29 +82,21 @@ public class LogInActivity extends AppCompatActivity {
                 pass = txtPass.getText().toString();
                 if (mail.length() > 0 && pass.length() > 0) {
                     if (isValidEmail(mail)) {
-                        if (btnLogIn.getText().toString().equals("Iniciar sesión")){
-                            mAuth.signInWithEmailAndPassword(mail, pass);
-                        } else {
-                            if (pass.equals(txtConfirm.getText().toString())){
-                                mAuth.createUserWithEmailAndPassword(mail, pass)
-                                        .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                                if (!task.isSuccessful()){
-                                                    Toast.makeText(LogInActivity.this, "Algo salió mal :( Vuelve a intentarlo más tarde.", Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-                                        });
-                            } else {
-                                Toast.makeText(LogInActivity.this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show();
+                    mAuth.signInWithEmailAndPassword(mail, pass)
+                        .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (!task.isSuccessful()){
+                                    Toast.makeText(LogInActivity.this, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
+                                }
                             }
-                        }
+                        });
                     } else {
-                        Toast.makeText(LogInActivity.this, "Correo no valido.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LogInActivity.this, "Correo no válido", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {
-                    Toast.makeText(LogInActivity.this, "Falta llenar algunos campos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LogInActivity.this, "Falta llenar algún campo", Toast.LENGTH_SHORT).show();
                 }
             }
         });
