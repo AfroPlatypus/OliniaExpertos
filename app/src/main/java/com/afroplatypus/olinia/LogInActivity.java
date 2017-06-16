@@ -1,5 +1,6 @@
 package com.afroplatypus.olinia;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,6 +27,7 @@ public class LogInActivity extends AppCompatActivity {
     EditText txtUserName, txtPass, txtConfirm;
     Intent intentLoad;
     Button btnLogIn;
+    ProgressDialog prog;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -82,15 +84,17 @@ public class LogInActivity extends AppCompatActivity {
                 pass = txtPass.getText().toString();
                 if (mail.length() > 0 && pass.length() > 0) {
                     if (isValidEmail(mail)) {
-                    mAuth.signInWithEmailAndPassword(mail, pass)
-                        .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (!task.isSuccessful()){
-                                    Toast.makeText(LogInActivity.this, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
+                        prog = ProgressDialog.show(LogInActivity.this, "Por favor espere", "Iniciando sesión...", true);
+                        mAuth.signInWithEmailAndPassword(mail, pass)
+                            .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    prog.hide();
+                                    if (!task.isSuccessful()){
+                                        Toast.makeText(LogInActivity.this, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
+                                    }
                                 }
-                            }
-                        });
+                            });
                     } else {
                         Toast.makeText(LogInActivity.this, "Correo no válido", Toast.LENGTH_SHORT).show();
                     }

@@ -1,5 +1,6 @@
 package com.afroplatypus.olinia;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     TextView txtMail, txtName, txtPass, txtConfPass, txtTel;
     Button btnSubmit;
     Intent intentLoad;
+    ProgressDialog prog;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mFirebaseDatabaseReference;
@@ -67,10 +69,12 @@ public class RegisterActivity extends AppCompatActivity {
                 if(isValidEmail(txtMail.getText().toString().trim())) {
                     if(passwordsMatch()) {
                         if(fieldsNotEmpty()) {
+                            prog = ProgressDialog.show(RegisterActivity.this, "Espere por favor", "Iniciando sesión...", true);
                             mAuth.createUserWithEmailAndPassword(txtMail.getText().toString().trim(), txtPass.getText().toString())
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
+                                    prog.hide();
                                     if(!task.isSuccessful())
                                         Toast.makeText(RegisterActivity.this, "Algo salió mal, intentalo más tarde", Toast.LENGTH_LONG).show();
                                 }
