@@ -45,4 +45,35 @@
         android:inputType="textPassword"
         android:textStyle="italic" />
 
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Fulanito González"
+        android:textStyle="italic" />
+
+    <EditText
+        android:id="@+id/tel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Teléfono"
+        android:inputType="number"
+        android:textStyle="italic" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Registrar"
+        android:layout_gravity="center"/>
+
 </LinearLayout>
