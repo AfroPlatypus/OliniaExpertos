@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +31,7 @@ public class ChatSelectionActivity extends AppCompatActivity {
     Intent chatIntent;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private Intent intentLogIn;
+    private Intent intentLogIn, intentExpSel;
     private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseListAdapter<Conversation> mFirebaseAdapter;
     private ListView mChatRecyclerView;
@@ -47,6 +48,7 @@ public class ChatSelectionActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         user_id = mAuth.getCurrentUser().getUid().trim();
         intentLogIn = new Intent(this, LogInActivity.class);
+        intentExpSel = new Intent(this, SelectExpertActivity.class);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -70,15 +72,7 @@ public class ChatSelectionActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //mAuth.signOut();
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    Interpolator interpolador = AnimationUtils.loadInterpolator(getBaseContext(),
-                            android.R.interpolator.fast_out_slow_in);
-                    view.animate()
-                            .rotation(click ? 45f : 0)
-                            .setInterpolator(interpolador)
-                            .start();
-                }
+                startActivity(intentExpSel);
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -111,9 +105,20 @@ public class ChatSelectionActivity extends AppCompatActivity {
         Query conversations_query = conversations.orderByChild("user").equalTo(user_id);
         mFirebaseAdapter = new FirebaseListAdapter<Conversation>(this, Conversation.class, R.layout.chat, conversations_query) {
             @Override
-            protected void populateView(View v, final Conversation conversation, int position) {
+            protected void populateView(final View v, final Conversation conversation, int position) {
                 conversation.setKey(getRef(position).getKey());
-                ((TextView) v.findViewById(R.id.user)).setText(conversation.getExpert());
+                mFirebaseDatabaseReference.child("experts/" + conversation.getExpert()+"/name").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ((TextView) v.findViewById(R.id.user)).setText(dataSnapshot.getValue(String.class));
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                //((TextView) v.findViewById(R.id.user)).setText(conversation.getExpert());
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
