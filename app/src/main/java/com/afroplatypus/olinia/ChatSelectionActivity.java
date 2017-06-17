@@ -8,15 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -107,7 +104,7 @@ public class ChatSelectionActivity extends AppCompatActivity {
             @Override
             protected void populateView(final View v, final Conversation conversation, int position) {
                 conversation.setKey(getRef(position).getKey());
-                mFirebaseDatabaseReference.child("experts/" + conversation.getExpert()+"/name").addValueEventListener(new ValueEventListener() {
+                mFirebaseDatabaseReference.child("experts/" + conversation.getExpert() + "/name").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         ((TextView) v.findViewById(R.id.user)).setText(dataSnapshot.getValue(String.class));

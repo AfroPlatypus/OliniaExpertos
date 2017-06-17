@@ -2,9 +2,9 @@ package com.afroplatypus.olinia;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -53,32 +53,32 @@ public class RegisterActivity extends AppCompatActivity {
                     mAuth.getCurrentUser().updateProfile(new UserProfileChangeRequest.Builder()
                             .setDisplayName(txtName.getText().toString())
                             .build());
-                    mFirebaseDatabaseReference.child("users/"+user.getUid()+"/name").setValue(txtName.getText().toString().trim());
-                    mFirebaseDatabaseReference.child("users/"+user.getUid()+"/phone").setValue(txtTel.getText().toString().trim());
-                    mFirebaseDatabaseReference.child("users/"+user.getUid()+"/connected").setValue(true);
+                    mFirebaseDatabaseReference.child("users/" + user.getUid() + "/name").setValue(txtName.getText().toString().trim());
+                    mFirebaseDatabaseReference.child("users/" + user.getUid() + "/phone").setValue(txtTel.getText().toString().trim());
+                    mFirebaseDatabaseReference.child("users/" + user.getUid() + "/connected").setValue(true);
                     startActivity(intentLoad);
                     RegisterActivity.this.finish();
                 } else {
-                    mFirebaseDatabaseReference.child("users/"+user.getUid()+"/connected").setValue(false);
+                    mFirebaseDatabaseReference.child("users/" + user.getUid() + "/connected").setValue(false);
                 }
             }
         };
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isValidEmail(txtMail.getText().toString().trim())) {
-                    if(passwordsMatch()) {
-                        if(fieldsNotEmpty()) {
+                if (isValidEmail(txtMail.getText().toString().trim())) {
+                    if (passwordsMatch()) {
+                        if (fieldsNotEmpty()) {
                             prog = ProgressDialog.show(RegisterActivity.this, "Espere por favor", "Iniciando sesión...", true);
                             mAuth.createUserWithEmailAndPassword(txtMail.getText().toString().trim(), txtPass.getText().toString())
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    prog.hide();
-                                    if(!task.isSuccessful())
-                                        Toast.makeText(RegisterActivity.this, "Algo salió mal, intentalo más tarde", Toast.LENGTH_LONG).show();
-                                }
-                            });
+                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            prog.hide();
+                                            if (!task.isSuccessful())
+                                                Toast.makeText(RegisterActivity.this, "Algo salió mal, intentalo más tarde", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
                         } else {
                             Toast.makeText(RegisterActivity.this, "Falta de llenar algún campo.", Toast.LENGTH_SHORT).show();
                         }
@@ -106,13 +106,13 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isValidEmail(String email){
+    private boolean isValidEmail(String email) {
         Pattern pat = Pattern.compile("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,4})+$");
         Matcher mat = pat.matcher(email);
         return mat.matches();
     }
 
-    private boolean fieldsNotEmpty(){
+    private boolean fieldsNotEmpty() {
         return !(txtMail.getText().toString().equals("")
                 || txtPass.getText().toString().equals("")
                 || txtConfPass.getText().toString().equals("")
@@ -120,7 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
                 || txtName.getText().toString().equals(""));
     }
 
-    private boolean passwordsMatch(){
+    private boolean passwordsMatch() {
         return txtPass.getText().toString().equals(txtConfPass.getText().toString());
     }
 }

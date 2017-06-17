@@ -7,4 +7,7 @@
     <string name="string_login">Iniciar sesión</string>
     <string name="title_activity_chat_selection">ChatSelectionActivity</string>
     <string name="confirm_password">Confirmar contraseña</string>
+    <string name="name_placeholder">Fulanito González</string>
+    <string name="phone">Teléfono</string>
+    <string name="register">Registrar</string>
 </resources>

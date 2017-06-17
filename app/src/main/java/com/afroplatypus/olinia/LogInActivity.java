@@ -86,15 +86,15 @@ public class LogInActivity extends AppCompatActivity {
                     if (isValidEmail(mail)) {
                         prog = ProgressDialog.show(LogInActivity.this, "Por favor espere", "Iniciando sesión...", true);
                         mAuth.signInWithEmailAndPassword(mail, pass)
-                            .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    prog.hide();
-                                    if (!task.isSuccessful()){
-                                        Toast.makeText(LogInActivity.this, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
+                                .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        prog.hide();
+                                        if (!task.isSuccessful()) {
+                                            Toast.makeText(LogInActivity.this, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
+                                        }
                                     }
-                                }
-                            });
+                                });
                     } else {
                         Toast.makeText(LogInActivity.this, "Correo no válido", Toast.LENGTH_SHORT).show();
                     }

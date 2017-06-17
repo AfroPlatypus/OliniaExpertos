@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="30dp"
+        android:contentDescription="Olinia Logo"
         android:src="@mipmap/olinia" />
 
     <EditText
@@ -43,9 +44,9 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/string_login" />
 
@@ -53,9 +54,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         android:textAlignment="center">
 
