@@ -9,7 +9,6 @@ public class Expert {
     }
 
     public Expert(String name) {
-        //TODO id = getIDFromFirebase();
         this.name = name;
     }
 

@@ -115,7 +115,6 @@ public class ChatSelectionActivity extends AppCompatActivity {
 
                     }
                 });
-                //((TextView) v.findViewById(R.id.user)).setText(conversation.getExpert());
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -1,9 +1,5 @@
 package com.afroplatypus.olinia;
 
-/**
- * Created by omarsaucedo on 25/03/17.
- */
-
 public class User {
 
     private String id;
@@ -11,7 +7,6 @@ public class User {
     private boolean connected;
 
     public User(String name) {
-        //TODO id = getIDFromFirebase();
         this.name = name;
     }
 
