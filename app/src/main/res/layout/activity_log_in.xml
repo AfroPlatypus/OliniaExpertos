@@ -14,7 +14,7 @@
         android:layout_height="100dp"
         android:layout_marginTop="30dp"
         android:contentDescription="Olinia Logo"
-        android:src="@mipmap/olinia" />
+        android:src="@mipmap/olinia_expertos" />
 
     <EditText
         android:id="@+id/user_name"
