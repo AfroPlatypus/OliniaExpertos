@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,13 +11,24 @@
     tools:context="com.afroplatypus.olinia.RegisterActivity">
 
     <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="@string/name_placeholder"
+        android:textStyle="italic" />
+
+    <EditText
         android:id="@+id/mail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:hint="@string/string_email"
         android:textStyle="italic" />
 
@@ -45,17 +57,6 @@
         android:textStyle="italic" />
 
     <EditText
-        android:id="@+id/name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="@string/name_placeholder"
-        android:textStyle="italic" />
-
-    <EditText
         android:id="@+id/tel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,11 +69,26 @@
         android:textStyle="italic" />
 
     <Button
-        android:id="@+id/submit"
+        android:id="@+id/picker"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
+        android:text="Selecciona una imagen" />
+
+    <ImageView
+        android:id="@+id/profilePicChoser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:srcCompat="@android:drawable/stat_notify_sync_noanim" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:text="@string/register" />
 
 </LinearLayout>

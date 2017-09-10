@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 public class LogInActivity extends AppCompatActivity {
 
-    TextView anon, register;
+    TextView register;
     EditText txtUserName, txtPass, txtConfirm;
     Intent intentLoad;
     Button btnLogIn;
@@ -36,7 +36,6 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
         mAuth = FirebaseAuth.getInstance();
-        anon = (TextView) findViewById(R.id.txtAnon);
         register = (TextView) findViewById(R.id.txtRegister);
         txtUserName = (EditText) findViewById(R.id.user_name);
         txtPass = (EditText) findViewById(R.id.pass);
@@ -56,24 +55,11 @@ public class LogInActivity extends AppCompatActivity {
                 }
             }
         };
-        anon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signInAnonymously()
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (!task.isSuccessful()){
-                                    Toast.makeText(LogInActivity.this, "Algo salió mal :( Vuelve a intentarlo más tarde.", Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
-            }
-        });
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(regIntent);
+                finish();
             }
         });
         btnLogIn.setOnClickListener(new View.OnClickListener() {
