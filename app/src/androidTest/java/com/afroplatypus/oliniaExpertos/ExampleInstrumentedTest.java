@@ -1,4 +1,4 @@
-package com.afroplatypus.olinia;
+package com.afroplatypus.oliniaExpertos;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.afroplatypus.olinia", appContext.getPackageName());
+        assertEquals("com.afroplatypus.oliniaExpertos", appContext.getPackageName());
     }
 }

@@ -1,4 +1,4 @@
-package com.afroplatypus.olinia;
+package com.afroplatypus.oliniaExpertos;
 
 import org.junit.Test;
 

@@ -8,7 +8,7 @@
     android:layout_marginLeft="30dp"
     android:layout_marginRight="30dp"
     android:orientation="vertical"
-    tools:context="com.afroplatypus.olinia.RegisterActivity">
+    tools:context="com.afroplatypus.oliniaExpertos.RegisterActivity">
 
     <EditText
         android:id="@+id/name"

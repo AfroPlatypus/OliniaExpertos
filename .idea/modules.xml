@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file:///afrofiles/git/Olinia/Olinia.iml" filepath="/afrofiles/git/Olinia/Olinia.iml" />
-      <module fileurl="file://$PROJECT_DIR$/OliniaExpertos.iml" filepath="$PROJECT_DIR$/OliniaExpertos.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file:///afrofiles/git/Olinia/app/app.iml" filepath="/afrofiles/git/Olinia/app/app.iml" />
+      <module fileurl="file:///afrofiles/git/OliniaExpertos/OliniaExpertos.iml" filepath="/afrofiles/git/OliniaExpertos/OliniaExpertos.iml" />
+      <module fileurl="file:///afrofiles/git/OliniaExpertos/app/app.iml" filepath="/afrofiles/git/OliniaExpertos/app/app.iml" />
     </modules>
   </component>
 </project>

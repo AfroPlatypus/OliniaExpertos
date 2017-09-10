@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Olinia</string>
+    <string name="app_name">OliniaExpertos</string>
     <string name="string_email">Correo electrónico</string>
     <string name="string_pass">Contraseña</string>
     <string name="string_register">Registrarme</string>

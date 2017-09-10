@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.afroplatypus.olinia.LoadActivity"
-    android:background="@color/background">
+    android:background="@color/background"
+    tools:context="com.afroplatypus.oliniaExpertos.LoadActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="202dp"
-            android:src="@mipmap/olinia"
-            android:id="@+id/imageView"
-            android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="100dp"/>
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="100dp"
+            android:src="@mipmap/olinia_expertos" />
 
         <TextView
             android:id="@+id/phrase"
@@ -45,8 +45,8 @@
             android:layout_marginBottom="14dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:progressTint="@color/phoenixRed"
-            android:progressBackgroundTint="@color/phoenixRed"/>
+            android:progressBackgroundTint="@color/phoenixRed"
+            android:progressTint="@color/phoenixRed" />
     </RelativeLayout>
 
 </FrameLayout>

@@ -1,11 +1,11 @@
-package com.afroplatypus.olinia;
+package com.afroplatypus.oliniaExpertos;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 public class SessionManager {
     // Shared preferences file name
-    private static final String PREF_NAME = "OliniaAuth";
+    private static final String PREF_NAME = "OliniaExpertosAuth";
     private static final String KEY_LOGGED_IN = "LoggedIn";
     private static final String KEY_USER_NAME = "UserName";
     private static final String KEY_USER_ID = "UserID";

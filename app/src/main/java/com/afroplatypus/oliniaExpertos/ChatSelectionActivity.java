@@ -1,4 +1,4 @@
-package com.afroplatypus.olinia;
+package com.afroplatypus.oliniaExpertos;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,7 +45,6 @@ public class ChatSelectionActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         user_id = mAuth.getCurrentUser().getUid().trim();
         intentLogIn = new Intent(this, LogInActivity.class);
-        intentExpSel = new Intent(this, SelectExpertActivity.class);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -104,7 +103,7 @@ public class ChatSelectionActivity extends AppCompatActivity {
             @Override
             protected void populateView(final View v, final Conversation conversation, int position) {
                 conversation.setKey(getRef(position).getKey());
-                mFirebaseDatabaseReference.child("experts/" + conversation.getExpert() + "/name").addValueEventListener(new ValueEventListener() {
+                mFirebaseDatabaseReference.child("expertos/" + conversation.getExpert() + "/name").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         ((TextView) v.findViewById(R.id.user)).setText(dataSnapshot.getValue(String.class));
