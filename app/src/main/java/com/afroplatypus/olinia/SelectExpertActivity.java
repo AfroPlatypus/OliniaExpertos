@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -79,6 +80,7 @@ public class SelectExpertActivity extends AppCompatActivity {
                 }
                 if (already) {
                     // TODO Toast?
+                    Toast.makeText(SelectExpertActivity.this, "Ya tiene una conversasion con este experto.", Toast.LENGTH_LONG).show();
                 } else {
                     Conversation conversation = new Conversation(user_id, expert.getId());
                     String conversation_key = mFirebaseDatabaseReference.child("conversations").push().getKey();
