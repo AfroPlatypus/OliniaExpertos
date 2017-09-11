@@ -3,6 +3,7 @@ package com.afroplatypus.oliniaExpertos;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,13 +25,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    TextView txtMail, txtName, txtPass, txtConfPass, txtTel;
+    TextView txtMail, txtName, txtPass, txtConfPass, txtTel, txtDescription;
     Button btnSubmit, btnPicker;
     ImageView ivProfilePic;
     Intent intentLoad;
@@ -40,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
     //Image picker variables
     private static final int SELECT_PICTURE = 1;
     private String selectedImagePath, fileManagerString;
+    private boolean isPicSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +55,18 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
         intentLoad = new Intent(this, LoadActivity.class);
         txtMail = (TextView) findViewById(R.id.mail);
         txtName = (TextView) findViewById(R.id.name);
         txtPass = (TextView) findViewById(R.id.pass);
         txtConfPass = (TextView) findViewById(R.id.confirm_pass);
         txtTel = (TextView) findViewById(R.id.tel);
+        txtDescription = (TextView) findViewById(R.id.description);
         btnSubmit = (Button) findViewById(R.id.submit);
         btnPicker = (Button) findViewById(R.id.picker);
         ivProfilePic = (ImageView) findViewById(R.id.profilePicChoser);
+        isPicSelected = false;
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -64,14 +75,34 @@ public class RegisterActivity extends AppCompatActivity {
                     mAuth.getCurrentUser().updateProfile(new UserProfileChangeRequest.Builder()
                             .setDisplayName(txtName.getText().toString())
                             .build());
-                    mFirebaseDatabaseReference.child("users/" + user.getUid() + "/name").setValue(txtName.getText().toString().trim());
-                    mFirebaseDatabaseReference.child("users/" + user.getUid() + "/phone").setValue(txtTel.getText().toString().trim());
-                    mFirebaseDatabaseReference.child("users/" + user.getUid() + "/connected").setValue(true);
+                    mFirebaseDatabaseReference.child("experts/" + user.getUid() + "/name").setValue(txtName.getText().toString().trim());
+                    mFirebaseDatabaseReference.child("experts/" + user.getUid() + "/phone").setValue(txtTel.getText().toString().trim());
+                    mFirebaseDatabaseReference.child("experts/" + user.getUid() + "/connected").setValue(true);
+                    mFirebaseDatabaseReference.child("experts/" + user.getUid() + "/description").setValue(txtDescription.getText().toString().trim());
+
+                    StorageReference imgStoreRef = FirebaseStorage.getInstance().getReference().child("profile_pics/" + user.getUid());
+                    ivProfilePic.setDrawingCacheEnabled(true);
+                    ivProfilePic.buildDrawingCache();
+                    Bitmap bitmap = ivProfilePic.getDrawingCache();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] data = baos.toByteArray();
+                    UploadTask uploadTask = imgStoreRef.putBytes(data);
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle unsuccessful uploads
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(RegisterActivity.this, "Exito", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                     startActivity(intentLoad);
                     RegisterActivity.this.finish();
-                } /*else {
-                    mFirebaseDatabaseReference.child("users/" + user.getUid() + "/connected").setValue(false);
-                }*/
+                }
             }
         };
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -80,16 +111,22 @@ public class RegisterActivity extends AppCompatActivity {
                 if (isValidEmail(txtMail.getText().toString().trim())) {
                     if (passwordsMatch()) {
                         if (fieldsNotEmpty()) {
-                            prog = ProgressDialog.show(RegisterActivity.this, "Espere por favor", "Iniciando sesión...", true);
-                            mAuth.createUserWithEmailAndPassword(txtMail.getText().toString().trim(), txtPass.getText().toString())
-                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            prog.hide();
-                                            if (!task.isSuccessful())
-                                                Toast.makeText(RegisterActivity.this, "Algo salió mal, intentalo más tarde", Toast.LENGTH_LONG).show();
-                                        }
-                                    });
+                            if (isPicSelected){
+                                prog = ProgressDialog.show(RegisterActivity.this, "Espere por favor", "Iniciando sesión...", true);
+                                mAuth.createUserWithEmailAndPassword(txtMail.getText().toString().trim(), txtPass.getText().toString())
+                                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                prog.hide();
+                                                if (!task.isSuccessful()) {
+                                                    Toast.makeText(RegisterActivity.this, "Algo salió mal, intentalo más tarde", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
+                            }
+                            else{
+                                Toast.makeText(RegisterActivity.this, "No has seleccionado imagen de perfil.", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             Toast.makeText(RegisterActivity.this, "Falta de llenar algún campo.", Toast.LENGTH_SHORT).show();
                         }
@@ -164,11 +201,11 @@ public class RegisterActivity extends AppCompatActivity {
                     System.out.println("filemanagerstring is the right one for you!");
                 }
                 ivProfilePic.setImageURI(selectedImageUri);
+                isPicSelected = true;
             }
         }
     }
 
-    //UPDATED!
     public String getPath(Uri uri) {
         String[] projection = { MediaStore.Images.Media.DATA };
         Cursor cursor = managedQuery(uri, projection, null, null, null);
