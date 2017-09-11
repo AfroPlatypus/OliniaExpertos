@@ -3,10 +3,7 @@ package com.afroplatypus.oliniaExpertos;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,8 +37,6 @@ public class ChatSelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_selection);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         mAuth = FirebaseAuth.getInstance();
         user_id = mAuth.getCurrentUser().getUid().trim();
         intentLogIn = new Intent(this, LogInActivity.class);
@@ -64,21 +59,11 @@ public class ChatSelectionActivity extends AppCompatActivity {
         mFirebaseDatabaseReference = database.getReference();
         getMessages();
         mChatRecyclerView.setAdapter(mFirebaseAdapter);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(intentExpSel);
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Log.d("USER ID", user_id);
     }
 
     private void presenceSystem() {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference connectedReference = database.getReference("users/" + user_id).child("connected");
+        final DatabaseReference connectedReference = database.getReference("experts/" + user_id).child("connected");
 
         final DatabaseReference connectedRef = database.getReference(".info/connected");
         connectedRef.addValueEventListener(new ValueEventListener() {
@@ -98,15 +83,17 @@ public class ChatSelectionActivity extends AppCompatActivity {
 
     private void getMessages() {
         DatabaseReference conversations = mFirebaseDatabaseReference.child(CONVERSATION_CHILD);
-        Query conversations_query = conversations.orderByChild("user").equalTo(user_id);
+        Query conversations_query = conversations.orderByChild("expert").equalTo(user_id);
         mFirebaseAdapter = new FirebaseListAdapter<Conversation>(this, Conversation.class, R.layout.chat, conversations_query) {
             @Override
             protected void populateView(final View v, final Conversation conversation, int position) {
                 conversation.setKey(getRef(position).getKey());
-                mFirebaseDatabaseReference.child("expertos/" + conversation.getExpert() + "/name").addValueEventListener(new ValueEventListener() {
+                mFirebaseDatabaseReference.child("users/" + conversation.getUser() + "/name").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        ((TextView) v.findViewById(R.id.user)).setText(dataSnapshot.getValue(String.class));
+                        if (((TextView) v.findViewById(R.id.user)).getText() == "") {
+                            ((TextView) v.findViewById(R.id.user)).setText(dataSnapshot.getValue(String.class));
+                        }
                     }
 
                     @Override
@@ -118,6 +105,7 @@ public class ChatSelectionActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         chatIntent.putExtra("conversation_key", conversation.getKey());
+                        chatIntent.putExtra("user_key", conversation.getUser());
                         startActivity(chatIntent);
                     }
                 });
